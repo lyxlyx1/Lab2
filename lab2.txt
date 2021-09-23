@@ -1,0 +1,120 @@
+package i;
+import java.io.*;
+import java.util.Scanner;
+public class LAB2 {
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("input FilePath: ");
+		String FilePath = sc.nextLine();
+		File file = new File(FilePath);
+		String s=res(file);
+		System.out.println(s);
+	}
+	public static String level1(File file) throws IOException {
+		String text=null;
+		String keytext=null;
+		int keynum=0;
+		BufferedReader test = new BufferedReader(new FileReader(file));
+		while((text = test.readLine()) != null){
+			File file1 = new File("C:/Users/lyx/Desktop/keywords.txt");
+			BufferedReader key = new BufferedReader(new FileReader(file1));//
+			while((keytext = key.readLine()) != null) {
+				if(text.contains(keytext)) {
+					keynum++;
+				}
+			}
+		}
+		return "total num: "+keynum+"\n";//level 1
+	}
+	public static String level2(File file) throws IOException {
+	BufferedReader test1 = new BufferedReader(new FileReader(file));
+	String text=null;
+	String s="";
+	int switchnum=0;
+	while((text = test1.readLine()) != null){
+		if(text.contains("switch")) {
+			switchnum++;
+		}
+	}
+	BufferedReader test2 = new BufferedReader(new FileReader(file));
+	int num=0;
+	int i=-1;
+	int ca[]=new int[1000];
+	while((text = test2.readLine()) != null){
+		if(text.contains("switch")) {
+			num++;
+			i++;
+			}
+		if(text.contains("case")) {
+			ca[i]++;
+		}
+		}
+	s+="switch num:"+switchnum+"\n";
+	s+="case num:";
+	for(int r=0;r<num;r++) {
+		 s+=ca[r]+" ";
+	}
+		return s+"\n";
+	}
+	public static String level3(File file) throws IOException {
+		String text=null;
+		BufferedReader test3 = new BufferedReader(new FileReader(file));//通过创建
+		int ifcount=0,elsecount=0,elseifcount=0;
+		boolean IF[]=new boolean [100];
+		boolean ELSE[]=new boolean[100];
+		boolean ELSEIF[]=new boolean[100];
+		while((text = test3.readLine()) != null){
+			if(text.contains("else if")) {
+				if(!ELSEIF[ifcount-elsecount-1]) {
+					elseifcount++;
+					ELSEIF[ifcount-elsecount-1]=true;	
+				}
+				
+			}
+			else if(text.contains("else")) {
+				ELSE[elsecount]=true;
+				elsecount++;
+			}
+			else if(text.contains("if")) {
+				IF[ifcount]=true;
+				ifcount++;
+				}
+			}
+		int ifelsecount=ifcount-elseifcount;
+		return "if-else num: " + ifelsecount+"\n";
+	}
+	public static String level4(File file) throws IOException {
+		String text=null;
+		BufferedReader test3 = new BufferedReader(new FileReader(file));
+		int ifcount=0,elsecount=0,elseifcount=0;
+		boolean IF[]=new boolean [100];
+		boolean ELSE[]=new boolean[100];
+		boolean ELSEIF[]=new boolean[100];
+		while(( text = test3.readLine()) != null){
+			if(text.contains("else if")) {
+				if(!ELSEIF[ifcount-elsecount-1]) {
+					elseifcount++;
+					ELSEIF[ifcount-elsecount-1]=true;	
+				}
+			}
+			else if(text.contains("else")) {
+				ELSE[elsecount]=true;
+				elsecount++;
+			}
+			else if(text.contains("if")) {
+				IF[ifcount]=true;
+				ifcount++;
+				}
+			}
+		int ifelseifelsecount=elseifcount;
+		return "if-elseif-else num: " + ifelseifelsecount+"\n";
+	}
+	public static String res(File file) throws IOException {
+	String res="";
+	res+=level1(file);
+	res+=level2(file);
+	res+=level3(file);
+	res+=level4(file);
+	return res;
+	}
+	}
